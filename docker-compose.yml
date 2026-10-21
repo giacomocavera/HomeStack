@@ -1,0 +1,28 @@
+services:
+  homestack-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: homestack-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - ${DATA_PATH:-../homestack-data}:/app/data
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - GEMINI_MODEL=${GEMINI_MODEL:-gemini-3.5-flash-lite}
+      - DATA_DIR=/app/data
+
+  homestack-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: /api
+    container_name: homestack-frontend
+    restart: unless-stopped
+    ports:
+      - "8095:80"
+    depends_on:
+      - homestack-backend

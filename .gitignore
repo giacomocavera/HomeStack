@@ -1,0 +1,10 @@
+.env
+homestack-data/
+data/
+labels_cache/
+*.db
+__pycache__/
+node_modules/
+dist/
+
+assets
