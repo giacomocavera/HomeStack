@@ -51,6 +51,12 @@ Unlike heavy industrial ERPs, HomeStack is built for everyday use. **It runs smo
   - **System Browser Printing:** Millimeter-calibrated layout for standard desktop printing.
 - 🔍 **Built-in QR Scanner:** Use your phone's camera to scan a container's QR code and instantly see what's inside.
 
+> [!TIP]
+> ### 💡 Yes, the AI is 100% FREE to use!
+> HomeStack uses the **Google AI Studio API**, which provides a **generous free tier with no credit card required**. 
+> 
+> In real-world testing, **I cataloged over 110 items back-to-back in a single session** and never came close to hitting any free tier rate limits or quotas. For everyday home and workshop use, you will likely never have to spend a single cent.
+
 ---
 
 ## 🏗️ Architecture
@@ -104,13 +110,20 @@ docker compose up -d
 
 ---
 
-## ⚠️ Important Note on Bluetooth Printing (Optional)
+## ⚠️ Important Note: Camera (QR Scanner) & Bluetooth on Mobile
 
-If you decide to use the **Web Bluetooth** feature to print labels from your smartphone or remote devices, your browser requires a secure context.
-**Web Bluetooth APIs ONLY work on `localhost` or via `HTTPS`.**
+Modern browsers restrict both the **Camera (QR Scanner)** and **Web Bluetooth** APIs exclusively to **Secure Contexts** (`localhost` or `HTTPS`).
 
-If you are hosting HomeStack on a local IP (e.g., `http://192.168.1.100`), the Bluetooth connect button will silently fail or be blocked by your browser. 
-**Solution:** Put HomeStack behind a reverse proxy with SSL (like Caddy, Nginx Proxy Manager, Traefik, or use Tailscale).
+If you access HomeStack via a plain local IP (e.g., `http://192.168.1.100:3000`), the browser will automatically disable camera access and Bluetooth connection.
+
+### How to solve this:
+
+* **Recommended (Production):** Put HomeStack behind a reverse proxy with an SSL certificate (e.g., **Caddy**, **Nginx Proxy Manager**, **Traefik**, or via **Tailscale**).
+* **Quick Workaround (Chrome / Chromium on Desktop & Android):**
+  If you don't want to set up SSL for your local LAN, you can tell Chrome to trust your local IP:
+  1. Open `chrome://flags/#unsafely-treat-insecure-origin-as-secure` in your browser.
+  2. Add your HomeStack address (e.g., `http://192.168.1.100:3000`).
+  3. Set the flag to **Enabled** and relaunch Chrome. Camera and Bluetooth will now work over plain HTTP!
 
 ---
 
